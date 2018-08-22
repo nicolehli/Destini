@@ -33,10 +33,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var topButton: UIButton!         // Has TAG = 1
     @IBOutlet weak var bottomButton: UIButton!      // Has TAG = 2
     @IBOutlet weak var storyTextView: UILabel!
+    @IBOutlet weak var resetButton: UIButton! 
     
     // TODO Step 5: Initialise instance variables here
-    
-    
+    var storyIndex : Int = 1  // story1
+
     
     
     override func viewDidLoad() {
@@ -44,21 +45,122 @@ class ViewController: UIViewController {
         
         
         // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
-        
+        resetGame()
+        //  Refactored into resetGame()
+        //        storyTextView.text = story1
+        //        topButton.setTitle(answer1a, for: .normal)
+        //        bottomButton.setTitle(answer1b, for: .normal)
     }
 
+    @IBAction func resetPressed(_ sender: UIButton) {
+        resetGame()
+    }
     
     // User presses one of the buttons
+    // Note to self: use sender.tag to access top or bottom buttons
     @IBAction func buttonPressed(_ sender: UIButton) {
     
         // TODO Step 4: Write an IF-Statement to update the views
-                
-        // TODO Step 6: Modify the IF-Statement to complete the story
+        //            switch sender.tag {
+        //            case 1:
+        //                storyTextView.text = story3
+        //                topButton.setTitle(answer3a, for: .normal)
+        //                bottomButton.setTitle(answer3b, for: .normal)
+        //            case 2:
+        //                storyTextView.text = story2
+        //                topButton.setTitle(answer2a, for: .normal)
+        //                bottomButton.setTitle(answer2b, for: .normal)
+        //            default:
+        //                print("default story")
+        //            }
         
-    
+        // TODO Step 6: Modify the IF-Statement to complete the story
+        // Hint: buttonName.isHidden = true to hide button with no answers
+        
+        // Take top button path
+        if sender.tag == 1 {
+            switch storyIndex {
+            case 1, 2:
+                storyIndex = 3
+                print("heading to story3")
+                setPath()
+            case 3:
+                storyIndex = 6
+                setPath()
+            default:
+                print("Error")
+                let alert = UIAlertController(title: "Oops", message: "Story Error", preferredStyle: .alert)
+                alert.addAction(.init())
+            }
+        } else if sender.tag == 2 {
+            switch storyIndex {
+            case 1:
+                storyIndex = 2
+                setPath()
+            case 2:
+                storyIndex = 4
+                setPath()
+            case 3:
+                storyIndex = 5
+                setPath()
+            default:
+                print("Error")
+                let alert = UIAlertController(title: "Oops", message: "Story Error", preferredStyle: .alert)
+                alert.addAction(.init())
+        }
+        
+        
+        }
     }
     
-
+    func resetGame() {
+        resetButton.isHidden = true
+        topButton.isHidden = false
+        bottomButton.isHidden = false
+        storyTextView.text = story1
+        topButton.setTitle(answer1a, for: .normal)
+        bottomButton.setTitle(answer1b, for: .normal)
+        storyIndex = 1
+        
+    }
+    
+    func setPath() {
+        if storyIndex == 1 {
+            storyTextView.text = story1
+            topButton.setTitle(answer1a, for: .normal)
+            bottomButton.setTitle(answer1b, for: .normal)
+        } else if storyIndex == 2 {
+            storyTextView.text = story2
+            topButton.setTitle(answer2a, for: .normal)
+            bottomButton.setTitle(answer2b, for: .normal)
+        } else if storyIndex == 3 {
+            storyTextView.text = story3
+            topButton.setTitle(answer3a, for: .normal)
+            bottomButton.setTitle(answer3b, for: .normal)
+        } else if storyIndex == 4 || storyIndex == 5 || storyIndex == 6 {
+            switch storyIndex {
+            case 4:
+                storyTextView.text = story4
+                topButton.isHidden = true
+                bottomButton.isHidden = true
+                resetButton.isHidden = false
+            case 5:
+                storyTextView.text = story5
+                topButton.isHidden = true
+                bottomButton.isHidden = true
+                resetButton.isHidden = false
+            case 6:
+                storyTextView.text = story6
+                topButton.isHidden = true
+                bottomButton.isHidden = true
+                resetButton.isHidden = false
+            default:
+                print("Error")
+                let alert = UIAlertController(title: "Oops", message: "Story Error", preferredStyle: .alert)
+                alert.addAction(.init())
+            }
+        }
+    }
 
 
 }
